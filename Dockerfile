@@ -48,7 +48,6 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-EXPOSE 3008
-ENV PORT 3008
+EXPOSE $PORT
 
 CMD ["server.js"]
