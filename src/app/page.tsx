@@ -15,7 +15,6 @@ export default async function Home() {
 }
 
 async function CrudShowcase() {
-  const latestPost = await api.post.getLatest();
 
   const allEntries = await api.expenseEntries.getAllEntries();
 
