@@ -1,12 +1,12 @@
 import Link from "next/link";
 
-import { CreatePost } from "~/app/_components/create-post";
+import { CreateCategory } from "~/app/_components/create-category";
 import { api } from "~/trpc/server";
 
 export default async function Home() {
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+    <main className="">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
         <CrudShowcase />
       </div>
@@ -16,17 +16,17 @@ export default async function Home() {
 
 async function CrudShowcase() {
 
-  const allEntries = await api.entry.getAllEntries();
+  const allCategories = await api.category.getAllCategories();
 
   return (
     <div className="w-full max-w-xs">
       {
-        allEntries.map((entry, index) => (
-          <p key={`entry_${index}`}>{entry.amount}--{entry.categoryId}--{entry.subCategoryId}--{entry.type}</p>
+        allCategories.map((category, index) => (
+          <p key={`entry_${index}`}>{category.id} --- {category.name}</p>
         ))
       }
 
-      <CreatePost />
+      <CreateCategory />
     </div>
   );
 }

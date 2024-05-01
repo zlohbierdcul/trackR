@@ -3,7 +3,7 @@ import { z } from "zod";
 import { publicProcedure, createTRPCRouter } from "../trpc";
 import { entry } from "~/server/db/schema";
 
-export const entryRounter = createTRPCRouter({
+export const entryRouter = createTRPCRouter({
     getAllEntries: publicProcedure
         .query(({ ctx }) => {
             return ctx.db.select().from(entry)
