@@ -1,0 +1,30 @@
+
+version: "3.9"
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: trackr
+    ports:
+      - 5433:5433
+    volumes:
+      - trackr_postgres_data:/var/lib/postgresql/data
+
+  app:
+    platform: "linux/amd64"
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_CLIENTVAR: "clientvar"
+    working_dir: /app
+    ports:
+      - "3008:3008"
+    image: ghcr.io/zlohbierdcul/trackr:main
+    environment:
+      - DATABASE_URL=http://192.168.2.164:5433
+
+volumes:
+  trackr_postgres_data:
