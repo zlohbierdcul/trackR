@@ -1,28 +1,28 @@
 import { z } from "zod";
 
 import { publicProcedure, createTRPCRouter } from "../trpc";
-import { expenseEntries } from "~/server/db/schema";
+import { entry } from "~/server/db/schema";
 
-export const expenseEntriesRouter = createTRPCRouter({
+export const entryRounter = createTRPCRouter({
     getAllEntries: publicProcedure
         .query(({ ctx }) => {
-            return ctx.db.select().from(expenseEntries)
+            return ctx.db.select().from(entry)
     }),
     
     createExpenseEntry: publicProcedure
         .input(z.object({
             amount: z.number().min(0),
-            category: z.string(),
-            subCategory: z.string(),
+            category: z.number(),
+            subCategory: z.number(),
+            type: z.enum(["Income", "Expense"]),
             desciption: z.string()
         }))
         .mutation(async ({ input, ctx }) => {
-            await ctx.db.insert(expenseEntries).values(
+            await ctx.db.insert(entry).values(
                 {
                     amount: input.amount,
-                    category: input.category,
-                    subCategory: input.subCategory,
-                    description: input.desciption
+                    categoryId: input.category,
+                    type: input.type
                 }
             )
         })

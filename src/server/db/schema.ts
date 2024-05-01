@@ -3,7 +3,6 @@
 
 import { sql } from "drizzle-orm";
 import {
-  index,
   integer,
   pgEnum,
   pgTableCreator,
@@ -20,19 +19,19 @@ import {
  */
 export const createTable = pgTableCreator((name) => `trackr_${name}`);
 
-const entryTypeEnum = pgEnum("type", ["Income", "Expense"])
-const fixCostEnum = pgEnum("billing_period", ["Income", "Expense"])
+export const entryTypeEnum = pgEnum('type', ["Income", "Expense"]);
+export const fixCostEnum = pgEnum('billing_period', ["Monthly", "Quarterly", "Yearly"]);
 
-export const entries = createTable(
+export const entry = createTable(
   "expense_entries",
   {
     id: serial("id").primaryKey(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    type: entryTypeEnum("type").notNull(),
-    amount: integer("amount").notNull(),
-    categoryId: integer("category_id").references(() => category.id).notNull(),
+    type: entryTypeEnum("type").default("Expense").notNull(),
+    amount: integer("amount").default(0).notNull(),
+    categoryId: integer("category_id").references(() => category.id),
     subCategoryId: integer("subcategory_id").references(() => subCategories.id),
     description: varchar("description", { length: 256 })
   }

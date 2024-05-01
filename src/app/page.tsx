@@ -16,13 +16,13 @@ export default async function Home() {
 
 async function CrudShowcase() {
 
-  const allEntries = await api.expenseEntries.getAllEntries();
+  const allEntries = await api.entry.getAllEntries();
 
   return (
     <div className="w-full max-w-xs">
       {
         allEntries.map((entry, index) => (
-          <p key={`entry_${index}`}>{entry.amount}--{entry.category}--{entry.subCategory}--{entry.subCategory}</p>
+          <p key={`entry_${index}`}>{entry.amount}--{entry.categoryId}--{entry.subCategoryId}--{entry.type}</p>
         ))
       }
 

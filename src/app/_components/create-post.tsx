@@ -8,16 +8,17 @@ import { api } from "~/trpc/react";
 export function CreatePost() {
   const router = useRouter();
   const [amount, setAmount] = useState(0);
-  const [category, setCategory] = useState("");
-  const [subCategory, setSubCategory] = useState("");
+  const [category, setCategory] = useState(0);
+  const [subCategory, setSubCategory] = useState(0);
   const [desciption, setDesciption] = useState("");
+  const [type, setType] = useState<"Income" | "Expense">("Expense");
 
-  const createPost = api.expenseEntries.createExpenseEntry.useMutation({
+  const createPost = api.entry.createExpenseEntry.useMutation({
     onSuccess: () => {
       router.refresh();
       setAmount(0);
-      setCategory("");
-      setSubCategory("");
+      setCategory(0);
+      setSubCategory(0);
       setDesciption("");
     },
   });
@@ -26,7 +27,7 @@ export function CreatePost() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        createPost.mutate({ amount, category, subCategory, desciption });
+        createPost.mutate({ type: type, amount, category, subCategory, desciption });
       }}
       className="flex flex-col gap-2"
     >
@@ -41,14 +42,14 @@ export function CreatePost() {
         type="text"
         placeholder="Category"
         value={category}
-        onChange={(e) => setCategory(e.target.value)}
+        onChange={(e) => setCategory(parseInt(e.target.value))}
         className="w-full rounded-full px-4 py-2 text-black"
       />
       <input
         type="text"
         placeholder="Sub Category"
         value={subCategory}
-        onChange={(e) => setSubCategory(e.target.value)}
+        onChange={(e) => setSubCategory(parseInt(e.target.value))}
         className="w-full rounded-full px-4 py-2 text-black"
       />
       <input
