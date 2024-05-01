@@ -5,6 +5,7 @@ import { sql } from "drizzle-orm";
 import {
   index,
   integer,
+  pgEnum,
   pgTableCreator,
   serial,
   timestamp,
@@ -19,31 +20,48 @@ import {
  */
 export const createTable = pgTableCreator((name) => `trackr_${name}`);
 
-export const posts = createTable(
-  "post",
-  {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
-    createdAt: timestamp("created_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updatedAt"),
-  },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
-  })
-);
+const entryTypeEnum = pgEnum("type", ["Income", "Expense"])
+const fixCostEnum = pgEnum("billing_period", ["Income", "Expense"])
 
-export const expenseEntries = createTable(
+export const entries = createTable(
   "expense_entries",
   {
     id: serial("id").primaryKey(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    amount: integer("amount"),
-    category: varchar("category", { length: 256 }),
-    subCategory: varchar("sub_category", { length: 256 }),
+    type: entryTypeEnum("type").notNull(),
+    amount: integer("amount").notNull(),
+    categoryId: integer("category_id").references(() => category.id).notNull(),
+    subCategoryId: integer("subcategory_id").references(() => subCategories.id),
     description: varchar("description", { length: 256 })
+  }
+)
+
+export const category = createTable(
+  "category",
+  {
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 256 })
+  }
+)
+
+export const subCategories = createTable(
+  "subcategories",
+  {
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 256 }),
+    categoryId: integer("category_id").references(() => category.id)
+  }
+)
+
+export const fixCost = createTable(
+  "fix_cost",
+  {
+    id: serial("id").primaryKey(),
+    amount: integer("amount").notNull(),
+    billingPeriod: fixCostEnum("billing_period").notNull(),
+    categoryId: integer("category_id").references(() => category.id),
+    subcategoryId: integer("subcategory_id").references(() => subCategories.id)
   }
 )

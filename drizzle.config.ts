@@ -9,4 +9,5 @@ export default {
     connectionString: env.DATABASE_URL,
   },
   tablesFilter: ["trackr_*"],
+  out: "./drizzle",
 } satisfies Config;
