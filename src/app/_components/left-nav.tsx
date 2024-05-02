@@ -14,10 +14,7 @@ export default function LeftNav() {
     return (
       <div className={cn("overflow-hidden flex flex-col gap-4 bg-card border-2 rounded-lg p-3 shadow-border shadow-lg transition-all", expanded ? "animate-accordion-right" : "animate-accordion-left")}>
           <Button variant={"outline"} size={"icon"} onClick={() => setExpanded(!expanded)}>
-            {expanded ?
-                <PanelLeftClose className="m-0" /> :
-                <PanelRightClose className="m-0" />
-            }
+            <PanelLeftClose className={cn("m-0 transition-all", expanded ? "rotate-180" : "")} />
           </Button>
           <Button variant={"outline"} size={expanded ? "default" : "icon"} onClick={() => router.push("/category")}>
             <BarChartHorizontal className="m-0" />
