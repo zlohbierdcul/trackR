@@ -35,6 +35,7 @@ const config = {
         destructive: {
           DEFAULT: "var(--destructive)",
           foreground: "var(--destructive-foreground)",
+          hover: "var(--destructive-hover)"
         },
         muted: {
           DEFAULT: "var(--muted)",
@@ -43,6 +44,7 @@ const config = {
         accent: {
           DEFAULT: "var(--accent)",
           foreground: "var(--accent-foreground)",
+          hover: "var(--accent-hover)"
         },
         popover: {
           DEFAULT: "var(--popover)",
@@ -68,12 +70,12 @@ const config = {
           to: { height: "0" },
         },
         "accordion-left": {
-          from: { width: "141px" },
+          from: { width: "220px" },
           to: { width: "68px" },
         },
         "accordion-right": {
           from: { width: "68px" },
-          to: { width: "141px" },
+          to: { width: "220px" },
         },
       },
       animation: {

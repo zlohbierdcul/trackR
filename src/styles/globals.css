@@ -4,31 +4,34 @@
 
 @layer base {
   :root {
-    --background: #070807;
-    --foreground: #EDEEEC;
+    --background: hsl(120, 7%, 3%);
+    --foreground: hsl(90, 6%, 93%);
 
-    --card: #B4CEAB25;
+    --card: hsla(105, 26%, 74%, 0.10);
+    --card-hover: hsla(105, 26%, 74%, 0.20);
     --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: #B4CEAB;
-    --primary-foreground: #070807;
+    --primary: hsl(105, 26%, 74%);
+    --primary-foreground: hsl(120, 7%, 3%);
 
-    --secondary: #466C33;
+    --secondary: hsl(100, 36%, 31%);
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: hsl(210 40% 96.1%);
+    --muted-foreground: hsl(215.4 16.3% 46.9%);
 
-    --accent: #64BE46;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: hsla(105, 26%, 74%, 0.10);
+    --accent-hover: hsla(105, 48%, 51%, 0.2);
+    --accent-foreground: hsl(105, 48%, 51%);
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: hsla(0, 84%, 60%, 0.10);
+    --destructive-hover: hsla(0, 84%, 60%, 0.2);
+    --destructive-foreground: hsl(0, 84%, 60%);
 
-    --border: #b4ceab2c;
+    --border: hsla(105, 26%, 74%, 0.10);
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
@@ -68,9 +71,10 @@
 
 @layer base {
   * {
-    @apply border-border m-5;
+    @apply border-border m-0;
+    font-family: var(--font-sans);
   }
   body {
-    @apply bg-background text-foreground flex flex-row gap-4;
+    @apply bg-background text-foreground flex flex-row gap-4 m-10;
   }
 }

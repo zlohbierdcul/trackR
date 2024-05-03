@@ -1,12 +1,11 @@
 import "~/styles/globals.css";
 
-import { Inter } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import LeftNav from "./_components/left-nav";
 
-
-const inter = Inter({
+const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-sans",
 });
@@ -17,9 +16,6 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-
-
-
 export default function RootLayout({
   children,
 }: {
@@ -27,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body className={`font-sans ${montserrat.variable}`}>
         <TRPCReactProvider>
           <LeftNav></LeftNav>
           {children}
@@ -36,4 +32,3 @@ export default function RootLayout({
     </html>
   );
 }
-

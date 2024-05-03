@@ -19,6 +19,8 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+
+// shadcn
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 
@@ -31,7 +33,6 @@ const formSchema = z.object({
 
 export function CreateCategory() {
   const router = useRouter();
-  const [name, setName] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,14 +42,12 @@ export function CreateCategory() {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
     createPost.mutate({ name: values.name });
   };
 
   const createPost = api.category.createCategory.useMutation({
     onSuccess: () => {
       router.refresh();
-      setName("");
     },
   });
 
@@ -73,27 +72,5 @@ export function CreateCategory() {
         </Button>
       </form>
     </Form>
-    // <form
-    //   onSubmit={(e) => {
-    //     e.preventDefault();
-    //     createPost.mutate({ type: type, amount, category, subCategory, desciption });
-    //   }}
-    //   className="flex flex-col gap-2"
-    // >
-    //   <input
-    //     type="text"
-    //     placeholder="Name"
-    //     value={amount}
-    //     onChange={(e) => setAmount(parseInt(e.target.value))}
-    //     className="w-full rounded-full px-4 py-2 text-black"
-    //   />
-    //   <button
-    //     type="submit"
-    //     className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-    //     disabled={createPost.isPending}
-    //   >
-    //
-    //   </button>
-    // </form>
   );
 }
