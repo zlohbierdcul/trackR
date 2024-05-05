@@ -7,37 +7,42 @@ import {
   ArrowDownRight,
   ArrowUpRight,
   BarChartHorizontal,
-  BookDashed,
   ListMinus,
-  PanelLeftClose,
   PanelRightClose,
   Settings,
   StretchHorizontal,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "~/lib/utils";
+import useBetterMediaQuery from "~/lib/useBetterMediaQuery";
 
 export default function LeftNav() {
   const router = useRouter();
   const pathname = usePathname();
   const [expanded, setExpanded] = useState(false);
+  const isDesktop = useBetterMediaQuery('(min-width: 768px)');
+  
 
   return (
     <div
       className={cn(
         "flex flex-col gap-4 overflow-hidden rounded-lg border-2 bg-card p-3 shadow-lg shadow-border transition-all",
         expanded ? "animate-accordion-right" : "animate-accordion-left",
+        isDesktop === false ? "fixed flex-row bottom-4 w-[90%] justify-between" : ""
       )}
     >
-      <Button
-        variant={"ghost"}
-        size={"icon"}
-        onClick={() => setExpanded(!expanded)}
-      >
-        <PanelLeftClose
-          className={cn("m-0 transition-all", expanded ? "rotate-180" : "")}
-        />
-      </Button>
+      {isDesktop ?  
+        <Button
+          variant={"ghost"}
+          size={"icon"}
+          onClick={() => setExpanded(!expanded)}
+        >
+          <PanelRightClose
+            className={cn("m-0 transition-all", expanded ? "rotate-180" : "")}
+          />
+        </Button>
+        : ""
+      }
       <Button
         variant={pathname === "/" ? "ghostSelected" : "ghost"}
         size={expanded ? "iconText" : "icon"}

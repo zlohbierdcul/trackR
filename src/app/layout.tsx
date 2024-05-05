@@ -5,6 +5,8 @@ import { Inter, Montserrat } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import LeftNav from "./_components/left-nav";
 
+export const dynamic = "force-dynamic";
+
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-sans",
