@@ -23,7 +23,6 @@ export default async function Categories() {
 
     categoryArray = categoryArray.map(category => {
       const matchingSubCategories = subcategoryData?.filter(subCategory => subCategory.categoryId === category.id)
-      console.log(matchingSubCategories)
       return {
         id: category.id,
         name: category.name,
@@ -34,11 +33,9 @@ export default async function Categories() {
     return categoryArray
   }
 
-  console.log(await createCategoryObjects())
-
   return (
     <main className="">
-      <div className="container flex flex-row items-start justify-center gap-12">
+      <div className="flex flex-row flex-wrap items-start justify-start gap-12">
         {(await createCategoryObjects()).map(category => (
           <CategoryCard key={category.id} category={{...category, subcategories: category.subCategories}} />
         ))}

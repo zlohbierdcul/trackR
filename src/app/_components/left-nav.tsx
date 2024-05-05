@@ -26,7 +26,7 @@ export default function LeftNav() {
   return (
     <div
       className={cn(
-        "flex flex-col gap-4 overflow-hidden rounded-lg border-2 bg-card p-3 shadow-lg shadow-border transition-all",
+        "flex flex-col gap-4 overflow-hidden rounded-lg border-2 bg-card p-3 shadow-lg shadow-border transition-all min-w-[68px]",
         expanded ? "animate-accordion-right" : "animate-accordion-left",
         isDesktop === false ? "fixed flex-row bottom-4 w-[90%] justify-between" : ""
       )}

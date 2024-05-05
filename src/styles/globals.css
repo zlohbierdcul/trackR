@@ -9,16 +9,16 @@
 
     --card: hsla(105, 26%, 74%, 0.10);
     --card-hover: hsla(105, 26%, 74%, 0.20);
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: hsla(222.2 84% 4.9%);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: hsl(120, 10%, 8%);
+    --popover-foreground: #020817
 
-    --primary: hsl(105, 26%, 74%);
-    --primary-foreground: hsl(120, 7%, 3%);
+    --primary: hsla(105, 26%, 74%);
+    --primary-foreground: hsla(120, 7%, 3%);
 
-    --secondary: hsl(100, 36%, 31%);
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: hsla(100, 36%, 31%);
+    --secondary-foreground: hsla(222.2 47.4% 11.2%);
 
     --muted: hsl(210 40% 96.1%);
     --muted-foreground: hsl(215.4 16.3% 46.9%);
@@ -32,8 +32,8 @@
     --destructive-foreground: hsl(0, 84%, 60%);
 
     --border: hsla(105, 26%, 74%, 0.10);
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --input: hsl(120, 9%, 15%);
+    --ring: var(--accent-foreground);
 
     --radius: 0.5rem;
   }
