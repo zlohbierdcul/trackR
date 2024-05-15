@@ -3,7 +3,7 @@ import "~/styles/globals.css";
 import { Inter, Montserrat } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import LeftNav from "./_components/left-nav";
+import LeftNav from "./_components/navigation/left-nav";
 
 export const dynamic = "force-dynamic";
 

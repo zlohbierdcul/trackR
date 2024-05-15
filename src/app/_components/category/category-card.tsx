@@ -29,6 +29,7 @@ import {
     FormLabel,
     FormMessage,
 } from '~/components/ui/form';
+import useBetterMediaQuery from '~/lib/useBetterMediaQuery';
 
 export default function CategoryCard({
     category,
@@ -43,9 +44,11 @@ export default function CategoryCard({
         }[];
     };
 }) {
+    const isDesktop = useBetterMediaQuery()
+
     return (
-        <BasicCard className="w-[300px] p-5">
-            <div className="flex flex-row items-center justify-between">
+        <BasicCard className={cn("p-5", isDesktop ? "min-w-[250px] max-w-[400px]" : "w-[100%]")}>
+            <div className="flex flex-row items-start justify-between">
                 <h1 className="font-bold text-accent-foreground">
                     {category.name}
                 </h1>
@@ -117,11 +120,20 @@ function CategoryForm({ className }: React.ComponentProps<'form'>) {
     });
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
-        createPost.mutate({ name: values.name });
-        form.reset();
+        if (values.subcategory) {
+            createSubCategory.mutate({ name: values.name, categoryId: parseInt(values.subcategory)})
+        } else {
+            createCategory.mutate({ name: values.name });
+        }
     };
 
-    const createPost = api.category.createCategory.useMutation({
+    const createCategory = api.category.createCategory.useMutation({
+        onSuccess: () => {
+            router.refresh();
+        },
+    });
+    
+    const createSubCategory = api.subCategory.createCategory.useMutation({
         onSuccess: () => {
             router.refresh();
         },
@@ -204,7 +216,6 @@ function CategoryForm({ className }: React.ComponentProps<'form'>) {
                 <Button
                     variant={'ghostSelected'}
                     type="submit"
-                    onSubmit={() => console.log('add')}
                 >
                     Add category
                 </Button>
@@ -222,12 +233,12 @@ function DeleteForm({
 }) {
     const router = useRouter();
 
-    const handleCategoryDelete = (
+    const handleCategoryDelete = async (
         e: FormEvent<HTMLFormElement>,
         id: number,
     ) => {
         e.preventDefault();
-        console.log(id);
+        await deleteSubCategory.mutateAsync(id)
         deleteCategory.mutate(id);
     };
 
@@ -236,6 +247,8 @@ function DeleteForm({
             router.refresh();
         },
     });
+
+    const deleteSubCategory = api.subCategory.deleteSubCategoryByCategory.useMutation()
 
     return (
         <form

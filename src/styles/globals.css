@@ -77,4 +77,14 @@
   body {
     @apply bg-background text-foreground flex flex-row gap-4 m-10;
   }
+
+  h1 {
+    @apply font-bold text-2xl mb-4 text-accent-foreground
+  }
+
+  @media only screen and (max-width: 768px){
+    body {
+      @apply mx-[5%]
+    }
+  }
 }

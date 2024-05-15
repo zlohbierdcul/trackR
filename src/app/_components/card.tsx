@@ -13,7 +13,7 @@ export default function BasicCard({
     <div
       className={cn(
         className,
-        "flex flex-col gap-4 overflow-hidden rounded-lg border-2 bg-card shadow-lg shadow-border",
+        "flex flex-col gap-4 overflow-hidden rounded-lg border-2 bg-popover shadow-lg shadow-border flex-1",
       )}
     >
       {children}

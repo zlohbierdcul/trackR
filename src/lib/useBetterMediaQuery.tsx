@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
  * @param mediaQueryString
  * @returns {unknown}
  */
-export default function useBetterMediaQuery(mediaQueryString: string) {
+export default function useBetterMediaQuery(mediaQueryString: string = '(min-width: 768px)') {
   const [matches, setMatches] = useState<boolean | null>(null);
 
   useEffect(() => {

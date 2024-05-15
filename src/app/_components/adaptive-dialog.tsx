@@ -22,7 +22,6 @@ import {
 import { Button } from '~/components/ui/button';
 import { useMediaQuery } from 'usehooks-ts';
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
 
 export function AdaptiveDialog({
     children,
