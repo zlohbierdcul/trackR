@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '~/components/ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
     ArrowDownRight,
@@ -15,12 +15,18 @@ import {
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '~/lib/utils';
 import useBetterMediaQuery from '~/lib/useBetterMediaQuery';
+import useWindowDimensions from '~/lib/useWindowDimensions';
 
 export default function LeftNav() {
     const router = useRouter();
     const pathname = usePathname();
     const [expanded, setExpanded] = useState(false);
     const isDesktop = useBetterMediaQuery();
+    const {width, height} = useWindowDimensions()
+
+    useEffect(() => {
+        setExpanded(false)
+    }, [width]);
 
     return (
         <div className={!isDesktop ? "fixed bottom-4 left-0 mx-[5%] w-[90%]" : ""}>
