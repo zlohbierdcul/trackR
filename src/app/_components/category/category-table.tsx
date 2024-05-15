@@ -33,8 +33,8 @@ export function CategoryTable() {
   };
 
   const deleteCategory = api.category.deleteCategoryById.useMutation({
-    onSuccess: () => {
-      categories.refetch()
+    onSuccess: async () => {
+      await categories.refetch()
     }
   });
 
