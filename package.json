@@ -7,7 +7,7 @@
     "build": "next build",
     "db:push": "drizzle-kit push:pg",
     "db:studio": "drizzle-kit studio",
-    "db:export": "drizzle-kit generate:pg --config=drizzle.config.ts",
+    "db:export": "node clean.js ./drizzle && drizzle-kit generate:pg --config=drizzle.config.ts",
     "db:drop": "drizzle-kit drop",
     "dev": "next dev",
     "lint": "next lint",
