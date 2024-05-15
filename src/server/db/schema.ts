@@ -32,7 +32,7 @@ export const entry = createTable(
     type: entryTypeEnum("type").default("Expense").notNull(),
     amount: integer("amount").default(0).notNull(),
     categoryId: integer("category_id").references(() => category.id),
-    subCategoryId: integer("subcategory_id").references(() => subCategories.id),
+    subCategoryId: integer("subcategory_id").references(() => subCategory.id),
     description: varchar("description", { length: 256 })
   }
 )
@@ -45,7 +45,7 @@ export const category = createTable(
   }
 )
 
-export const subCategories = createTable(
+export const subCategory = createTable(
   "subcategories",
   {
     id: serial("id").primaryKey(),
@@ -61,6 +61,6 @@ export const fixCost = createTable(
     amount: integer("amount").notNull(),
     billingPeriod: fixCostEnum("billing_period").notNull(),
     categoryId: integer("category_id").references(() => category.id),
-    subcategoryId: integer("subcategory_id").references(() => subCategories.id)
+    subcategoryId: integer("subcategory_id").references(() => subCategory.id)
   }
 )
