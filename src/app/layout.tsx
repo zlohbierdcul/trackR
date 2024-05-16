@@ -19,16 +19,15 @@ export const metadata = {
     icons: [{ rel: 'icon', url: '/favicon.ico' }],
 };
 
-// export const viewport: Viewport = {
-//     maximumScale: 1
-// }   
+export const viewport: Viewport = {
+    maximumScale: 1
+}   
 
 export default function RootLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-
     return (
         <html lang="en">
             <body className={`font-sans ${montserrat.variable}`}>
