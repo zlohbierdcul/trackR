@@ -24,6 +24,7 @@ import { useRouter } from 'next/navigation';
 import { api } from '~/trpc/react';
 import { cn } from '~/lib/utils';
 import { Button } from '~/components/ui/button';
+import { useEffect } from 'react';
 
 const formSchema = z.object({
     name: z
@@ -68,6 +69,32 @@ export default function CategoryForm({ className }: React.ComponentProps<'form'>
             router.refresh();
         },
     });
+
+
+    // This code somehow fixes a bug where the height of the DrawerContent gets a fixed value, when the drawer resizes while an input is focused
+    let mutationObserver: MutationObserver;
+
+    if (typeof window !== 'undefined') {
+        mutationObserver = new window.MutationObserver(async (mutations) => {
+            mutations.forEach(mutation => {
+                const node = mutation.target as unknown as HTMLElement
+                if (node.style.height) {
+                    node.style.removeProperty("height")
+                }
+                if (node.style.bottom) {
+                    node.style.removeProperty("bottom")
+                }
+
+            })
+        })
+    }
+
+    useEffect(() => {
+        const drawerContent = document.getElementById("drawer-content")
+        if (drawerContent && mutationObserver) {
+            mutationObserver.observe(drawerContent, { attributes: true, attributeFilter: ["style"]})
+        }
+    }, []);
 
     return (
         <Form {...form}>
