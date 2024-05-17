@@ -75,7 +75,7 @@ export default function CategoryForm({ className }: React.ComponentProps<'form'>
     let mutationObserver: MutationObserver;
 
     if (typeof window !== 'undefined') {
-        mutationObserver = new window.MutationObserver(async (mutations) => {
+        mutationObserver = new window.MutationObserver((mutations) => {
             mutations.forEach(mutation => {
                 const node = mutation.target as unknown as HTMLElement
                 if (node.style.height) {
