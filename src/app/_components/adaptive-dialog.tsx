@@ -59,7 +59,7 @@ export function AdaptiveDialog({
             <DrawerTrigger asChild>
                 {children[0]}
             </DrawerTrigger>
-            <DrawerContent className="">
+            <DrawerContent id="drawer-content">
                 <DrawerHeader className="text-left">
                     <DrawerTitle>Add new category</DrawerTitle>
                     <DrawerDescription>
