@@ -81,9 +81,6 @@ export default function CategoryForm({ className }: React.ComponentProps<'form'>
                 if (node.style.height) {
                     node.style.removeProperty("height")
                 }
-                if (node.style.bottom) {
-                    node.style.removeProperty("bottom")
-                }
 
             })
         })
