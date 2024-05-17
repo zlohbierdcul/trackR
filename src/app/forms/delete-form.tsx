@@ -33,7 +33,7 @@ export default function DeleteForm({
 
     return (
         <form
-            className={cn('grid items-start gap-4', className)}
+            className={cn('mx-4 grid items-start gap-4 md:mx-0', className)}
             onSubmit={(e) => handleCategoryDelete(e, idToDelete)}
         >
             <Button variant={'ghostSelected'} type="submit">

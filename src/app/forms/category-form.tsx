@@ -47,7 +47,7 @@ export default function CategoryForm({ className }: React.ComponentProps<'form'>
         },
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const onSubmit: (values: z.infer<typeof formSchema>) => void = (values) => {
         if (values.subcategory) {
             createSubCategory.mutate({
                 name: values.name,
