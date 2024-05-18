@@ -9,7 +9,6 @@ import {
     FormLabel,
     FormMessage,
 } from '~/components/ui/form';
-import { Switch } from '~/components/ui/switch';
 import { Input } from '~/components/ui/input';
 import {
     Select,
@@ -23,7 +22,6 @@ import { api } from '~/trpc/react';
 import { cn } from '~/lib/utils';
 import { Button } from '~/components/ui/button';
 import { FormEvent, useEffect, useState } from 'react';
-import { subCategory } from '~/server/db/schema';
 
 const formSchema = z.object({
     name: z
@@ -44,8 +42,12 @@ export default function CategoryEditForm({
     className?: React.ComponentProps<'form'>;
 }) {
     const router = useRouter();
-    const [subCategoriesData, setSubCategoriesData] = useState<any[]>([]);
-    const [changedSubCategories, setChangedSubCategories] = useState<Map<number, string>>(new Map());
+    const [subCategoriesData, setSubCategoriesData] = useState<
+        { name: string | null; id: number; categoryId: number | null }[]
+    >([]);
+    const [changedSubCategories, setChangedSubCategories] = useState<
+        Map<number, string>
+    >(new Map());
 
     const category = api.category.getCategoryById.useQuery(categoryId);
     const subCategories =
@@ -72,41 +74,33 @@ export default function CategoryEditForm({
         },
     });
 
-    const onSubmit: (values: z.infer<typeof formSchema>) => void = (
-        values,
-    ) => {
-        console.log(changedSubCategories)
-        console.log(values.name)
+    const onSubmit: (values: z.infer<typeof formSchema>) => void = (values) => {
+        console.log(changedSubCategories);
+        console.log(values.name);
     };
 
-    const createCategory = api.category.createCategory.useMutation({
-        onSuccess: () => {
-            router.refresh();
-        },
-    });
-
-    const createSubCategory = api.subCategory.createCategory.useMutation({
-        onSuccess: () => {
-            router.refresh();
-        },
-    });
-
     const handleSelectChange = (e: string) => {
-        const data = JSON.parse(e);
+        const data: {
+            name: string | undefined;
+            id: string;
+        } = JSON.parse(e) as {
+            name: string | undefined;
+            id: string;
+        };
         form.setValue('subcategory.id', parseInt(data.id));
         form.setValue('subcategory.name', data.name);
     };
 
     const handleSubNameChange = (e: FormEvent<HTMLInputElement>) => {
-        const currentSub = form.getValues("subcategory")
-        const value = (e.target as HTMLInputElement).value
+        const currentSub = form.getValues('subcategory');
+        const value = (e.target as HTMLInputElement).value;
         if (currentSub.name !== value) {
-            let temp = changedSubCategories
-            temp.set(currentSub.id ?? -1, value)
-            setChangedSubCategories(temp)
-            form.setValue("subcategory.name", value)
+            const temp = changedSubCategories;
+            temp.set(currentSub.id ?? -1, value);
+            setChangedSubCategories(temp);
+            form.setValue('subcategory.name', value);
         }
-    }
+    };
 
     // This code somehow fixes a bug where the height of the DrawerContent gets a fixed value, when the drawer resizes while an input is focused
     let mutationObserver: MutationObserver;
@@ -131,7 +125,6 @@ export default function CategoryEditForm({
             });
         }
     }, []);
-
 
     return (
         <Form {...form}>
@@ -170,22 +163,22 @@ export default function CategoryEditForm({
                                         {subCategories.isFetched && (
                                             <SelectValue
                                                 key={`select_${subCategories.data?.at(0)?.id}`}
-                                                placeholder={subCategories.data?.at(0)?.name}
-                                            >
-                                                
-                                            </SelectValue>
+                                                placeholder={
+                                                    subCategories.data?.at(0)
+                                                        ?.name
+                                                }
+                                            ></SelectValue>
                                         )}
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {subCategoriesData
-                                            .map((category) => (
-                                                <SelectItem
-                                                    key={`select_${category.id}`}
-                                                    value={`{"id": ${category.id}, "name": "${category.name}"}`}
-                                                >
-                                                    {category.name}
-                                                </SelectItem>
-                                            ))}
+                                        {subCategoriesData.map((category) => (
+                                            <SelectItem
+                                                key={`select_${category.id}`}
+                                                value={`{"id": ${category.id}, "name": "${category.name}"}`}
+                                            >
+                                                {category.name}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </FormControl>
@@ -200,7 +193,11 @@ export default function CategoryEditForm({
                         <FormItem>
                             <FormLabel>Subcategory Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="Fuel" onChangeCapture={handleSubNameChange} {...field}></Input>
+                                <Input
+                                    placeholder="Fuel"
+                                    onChangeCapture={handleSubNameChange}
+                                    {...field}
+                                ></Input>
                             </FormControl>
                             <FormMessage></FormMessage>
                         </FormItem>
