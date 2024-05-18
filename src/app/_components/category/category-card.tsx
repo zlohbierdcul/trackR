@@ -10,6 +10,8 @@ import { AdaptiveDialog } from '../adaptive-dialog';
 
 import useBetterMediaQuery from '~/lib/useBetterMediaQuery';
 import DeleteForm from '~/app/forms/delete-form';
+import { title } from 'process';
+import CategoryEditForm from '~/app/forms/category-edit-form';
 
 export default function CategoryCard({
     category,
@@ -34,21 +36,28 @@ export default function CategoryCard({
             )}
         >
             <div className="flex flex-row items-center justify-between">
-                <h1 className="text-xl truncate">
-                    {category.name}
-                </h1>
+                <h1 className="truncate text-xl">{category.name}</h1>
                 <div className="flex gap-2">
-                    <Button
-                        size={'smallIcon'}
-                        Icon={Edit}
-                        iconPlacement="left"
-                        iconSize={18}
-                        variant={'ghostSelected'}
-                    />
+                    <AdaptiveDialog
+                        key={`edit_form_cat_${category.id}`}
+                        title="Edit category"
+                        description="Edit the category."
+                    >
+                        <Button
+                            size={'smallIcon'}
+                            Icon={Edit}
+                            iconPlacement="left"
+                            iconSize={18}
+                            variant={'ghostSelected'}
+                        />
+                        <CategoryEditForm
+                            categoryId={category.id}
+                        ></CategoryEditForm>
+                    </AdaptiveDialog>
                     <AdaptiveDialog
                         key={`del_form_cat_${category.id}`}
                         title="Delete category?"
-                        description='This permanatly deletes this category and all its sub categories. Are you sure?'
+                        description="This permanatly deletes this category and all its sub categories. Are you sure?"
                     >
                         <Button
                             size={'smallIcon'}

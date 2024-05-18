@@ -9,6 +9,10 @@ export const categoryRouter = createTRPCRouter({
     return ctx.db.select().from(category);
   }),
 
+  getCategoryById: publicProcedure.input(z.number()).query(({ input,ctx }) => {
+    return ctx.db.selectDistinct().from(category).where(eq(category.id, input)).limit(1)
+  }),
+
   createCategory: publicProcedure
     .input(
       z.object({

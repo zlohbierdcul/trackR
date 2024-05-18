@@ -1,9 +1,5 @@
 import { api } from '~/trpc/server';
 import CategoryCard from '../_components/category/category-card';
-import { Plus } from 'lucide-react';
-import { Button } from '~/components/ui/button';
-import { AdaptiveDialog } from '../_components/adaptive-dialog';
-import CategoryForm from '../forms/category-form';
 import CategoryAdd from '../_components/category/category-add';
 
 export default async function Categories() {

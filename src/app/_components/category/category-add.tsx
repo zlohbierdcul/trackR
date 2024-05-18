@@ -1,9 +1,9 @@
 "use client"
 
 import { Plus } from "lucide-react";
-import CategoryForm from "~/app/forms/category-form";
 import { Button } from "~/components/ui/button";
 import { AdaptiveDialog } from "../adaptive-dialog";
+import CategoryAddForm from "~/app/forms/category-add-form";
 
 export default function CategoryAdd() {
     return (
@@ -20,7 +20,7 @@ export default function CategoryAdd() {
             >
                 Add new category
             </Button>
-            <CategoryForm></CategoryForm>
+            <CategoryAddForm></CategoryAddForm>
         </AdaptiveDialog>
     );
 }
