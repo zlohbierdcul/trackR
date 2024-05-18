@@ -35,7 +35,7 @@ const formSchema = z.object({
     subcategory: z.string().optional(),
 });
 
-export default function CategoryForm({ className }: React.ComponentProps<'form'>) {
+export default function CategoryAddForm({ className }: React.ComponentProps<'form'>) {
     const categories = api.category.getAllCategories.useQuery();
 
     const router = useRouter();
@@ -47,7 +47,7 @@ export default function CategoryForm({ className }: React.ComponentProps<'form'>
         },
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const onSubmit: (values: z.infer<typeof formSchema>) => void = (values) => {
         if (values.subcategory) {
             createSubCategory.mutate({
                 name: values.name,
