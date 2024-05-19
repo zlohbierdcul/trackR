@@ -9,20 +9,22 @@ export const entryRouter = createTRPCRouter({
             return ctx.db.select().from(entry)
     }),
     
-    createExpenseEntry: publicProcedure
+    createEntry: publicProcedure
         .input(z.object({
             amount: z.number().min(0),
             category: z.number(),
             subCategory: z.number(),
             type: z.enum(["Income", "Expense"]),
-            desciption: z.string()
+            desciption: z.string().or(z.null())
         }))
         .mutation(async ({ input, ctx }) => {
             await ctx.db.insert(entry).values(
                 {
                     amount: input.amount,
                     categoryId: input.category,
-                    type: input.type
+                    subCategoryId: input.subCategory,
+                    type: input.type,
+                    description: input.desciption
                 }
             )
         })
