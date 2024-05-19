@@ -1,30 +1,15 @@
-
-
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '~/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { Switch } from '~/components/ui/switch';
 import { Input } from '~/components/ui/input';
-import {
-    Select,
-    SelectTrigger,
-    SelectValue,
-    SelectContent,
-    SelectItem,
-} from '~/components/ui/select';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '~/components/ui/select';
 import { useRouter } from 'next/navigation';
 import { api } from '~/trpc/react';
 import { cn } from '~/lib/utils';
 import { Button } from '~/components/ui/button';
-import { useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useDrawerObserver } from '~/lib/useDrawerObserver';
 
 const formSchema = z.object({
@@ -36,9 +21,12 @@ const formSchema = z.object({
     subcategory: z.string().optional(),
 });
 
-export default function CategoryAddForm({ className }: React.ComponentProps<'form'>) {
-    useDrawerObserver()
-    
+export default function CategoryAddForm({ setOpen, className }: {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  className?: React.ComponentProps<'form'>;
+} ) {
+    useDrawerObserver();
+
     const categories = api.category.getAllCategories.useQuery();
 
     const router = useRouter();
@@ -59,6 +47,7 @@ export default function CategoryAddForm({ className }: React.ComponentProps<'for
         } else {
             createCategory.mutate({ name: values.name });
         }
+        setOpen(false)
     };
 
     const createCategory = api.category.createCategory.useMutation({
@@ -77,8 +66,7 @@ export default function CategoryAddForm({ className }: React.ComponentProps<'for
         <Form {...form}>
             <form
                 className={cn('mx-4 grid items-start gap-4 md:mx-0', className)}
-                onSubmit={form.handleSubmit(onSubmit)}
-            >
+                onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
                     control={form.control}
                     name="name"
@@ -86,15 +74,11 @@ export default function CategoryAddForm({ className }: React.ComponentProps<'for
                         <FormItem>
                             <FormLabel>Category Name</FormLabel>
                             <FormControl>
-                                <Input
-                                    placeholder="Transportation"
-                                    {...field}
-                                ></Input>
+                                <Input placeholder="Transportation" {...field}></Input>
                             </FormControl>
                             <FormMessage></FormMessage>
                         </FormItem>
-                    )}
-                ></FormField>
+                    )}></FormField>
                 <FormField
                     control={form.control}
                     name="type"
@@ -106,13 +90,11 @@ export default function CategoryAddForm({ className }: React.ComponentProps<'for
                                     id="type"
                                     className="bg-accent"
                                     checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                ></Switch>
+                                    onCheckedChange={field.onChange}></Switch>
                             </FormControl>
                             <FormMessage></FormMessage>
                         </FormItem>
-                    )}
-                ></FormField>
+                    )}></FormField>
                 {form.watch().type && (
                     <FormField
                         control={form.control}
@@ -121,31 +103,24 @@ export default function CategoryAddForm({ className }: React.ComponentProps<'for
                             <FormItem>
                                 <FormLabel>Assosiated Category</FormLabel>
                                 <FormControl>
-                                    <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value}
-                                    >
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Category"></SelectValue>
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {categories.data?.map(
-                                                (category) => (
-                                                    <SelectItem
-                                                        key={`select_${category.id}`}
-                                                        value={category.id.toString()}
-                                                    >
-                                                        {category.name}
-                                                    </SelectItem>
-                                                ),
-                                            )}
+                                            {categories.data?.map((category) => (
+                                                <SelectItem
+                                                    key={`select_${category.id}`}
+                                                    value={category.id.toString()}>
+                                                    {category.name}
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
                                 <FormMessage></FormMessage>
                             </FormItem>
-                        )}
-                    ></FormField>
+                        )}></FormField>
                 )}
                 <Button variant={'ghostSelected'} type="submit">
                     Add category
