@@ -10,8 +10,10 @@ import { AdaptiveDialog } from '../adaptive-dialog';
 
 import useBetterMediaQuery from '~/lib/useBetterMediaQuery';
 import DeleteForm from '~/app/forms/delete-form';
-import { title } from 'process';
 import CategoryEditForm from '~/app/forms/category-edit-form';
+import { useRouter } from 'next/navigation';
+import { FormEvent, useState } from 'react';
+import { api } from '~/trpc/react';
 
 export default function CategoryCard({
     category,
@@ -27,6 +29,28 @@ export default function CategoryCard({
     };
 }) {
     const isDesktop = useBetterMediaQuery();
+    const router = useRouter()
+    const [editOpen, setEditOpen] = useState(false)
+    const [deleteOpen, setDeleteOpen] = useState(false);
+
+    const handleCategoryDelete = async (
+        e: FormEvent<HTMLFormElement>,
+        id: number,
+    ) => {
+        e.preventDefault();
+        await deleteSubCategory.mutateAsync(id);
+        deleteCategory.mutate(id);
+    };
+
+    const deleteCategory = api.category.deleteCategoryById.useMutation({
+        onSuccess: () => {
+            router.refresh();
+        },
+    });
+
+    const deleteSubCategory =
+        api.subCategory.deleteSubCategoryByCategory.useMutation();
+
 
     return (
         <BasicCard
@@ -42,6 +66,8 @@ export default function CategoryCard({
                         key={`edit_form_cat_${category.id}`}
                         title="Edit category"
                         description="Edit the category."
+                        open={editOpen}
+                        setOpen={setEditOpen}
                     >
                         <Button
                             size={'smallIcon'}
@@ -52,12 +78,15 @@ export default function CategoryCard({
                         />
                         <CategoryEditForm
                             categoryId={category.id}
+                            setOpen={setEditOpen}
                         ></CategoryEditForm>
                     </AdaptiveDialog>
                     <AdaptiveDialog
                         key={`del_form_cat_${category.id}`}
                         title="Delete category?"
                         description="This permanatly deletes this category and all its sub categories. Are you sure?"
+                        open={deleteOpen}
+                        setOpen={setDeleteOpen}
                     >
                         <Button
                             size={'smallIcon'}
@@ -66,7 +95,7 @@ export default function CategoryCard({
                             iconSize={18}
                             variant={'destructive'}
                         />
-                        <DeleteForm idToDelete={category.id} />
+                        <DeleteForm deleteHandler={(e) => handleCategoryDelete(e, category.id)} />
                     </AdaptiveDialog>
                 </div>
             </div>

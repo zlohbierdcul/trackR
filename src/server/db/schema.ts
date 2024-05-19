@@ -41,7 +41,7 @@ export const category = createTable(
   "category",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 })
+    name: varchar("name", { length: 256 }).notNull()
   }
 )
 
@@ -49,7 +49,7 @@ export const subCategory = createTable(
   "subcategories",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    name: varchar("name", { length: 256 }).notNull(),
     categoryId: integer("category_id").references(() => category.id)
   }
 )

@@ -6,35 +6,16 @@ import { api } from "~/trpc/react";
 
 export default function DeleteForm({
     className,
-    idToDelete,
+    deleteHandler,
 }: {
     className?: React.ComponentProps<'form'>;
-    idToDelete: number;
+    deleteHandler: (e: FormEvent<HTMLFormElement>) => void;
 }) {
-    const router = useRouter();
-
-    const handleCategoryDelete = async (
-        e: FormEvent<HTMLFormElement>,
-        id: number,
-    ) => {
-        e.preventDefault();
-        await deleteSubCategory.mutateAsync(id);
-        deleteCategory.mutate(id);
-    };
-
-    const deleteCategory = api.category.deleteCategoryById.useMutation({
-        onSuccess: () => {
-            router.refresh();
-        },
-    });
-
-    const deleteSubCategory =
-        api.subCategory.deleteSubCategoryByCategory.useMutation();
 
     return (
         <form
             className={cn('mx-4 grid items-start gap-4 md:mx-0', className)}
-            onSubmit={(e) => handleCategoryDelete(e, idToDelete)}
+            onSubmit={deleteHandler}
         >
             <Button variant={'ghostSelected'} type="submit">
                 Delete
