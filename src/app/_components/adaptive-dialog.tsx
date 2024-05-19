@@ -1,5 +1,3 @@
-'use client';
-
 import {
     Dialog,
     DialogContent,
@@ -21,18 +19,21 @@ import {
 
 import { Button } from '~/components/ui/button';
 import { useMediaQuery } from 'usehooks-ts';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 export function AdaptiveDialog({
     children,
     title,
     description,
+    open,
+    setOpen
 }: {
     children: React.ReactNode[];
     title: string,
     description: string,
+    open: boolean,
+    setOpen: Dispatch<SetStateAction<boolean>>
 }) {
-    const [open, setOpen] = useState(false);
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
     if (isDesktop) {
