@@ -142,7 +142,7 @@ export default function CategoryEditForm({
         tempDeleted.push(id);
         setDeletedSubCategories(tempDeleted);
 
-        let tempData = subCategoriesData;
+        const tempData = subCategoriesData;
         tempData.splice(
             tempData.findIndex((sub) => sub.id === id),
             1
