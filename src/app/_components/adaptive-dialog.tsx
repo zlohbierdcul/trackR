@@ -26,28 +26,24 @@ export function AdaptiveDialog({
     title,
     description,
     open,
-    setOpen
+    setOpen,
 }: {
     children: React.ReactNode[];
-    title: string,
-    description: string,
-    open: boolean,
-    setOpen: Dispatch<SetStateAction<boolean>>
+    title: string;
+    description: string;
+    open: boolean;
+    setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
     if (isDesktop) {
         return (
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
-                    {children[0]}
-                </DialogTrigger>
+                <DialogTrigger asChild>{children[0]}</DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
-                        <DialogDescription>
-                            {description}
-                        </DialogDescription>
+                        <DialogDescription>{description}</DialogDescription>
                     </DialogHeader>
                     {children[1]}
                 </DialogContent>
@@ -57,17 +53,13 @@ export function AdaptiveDialog({
 
     return (
         <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger asChild>
-                {children[0]}
-            </DrawerTrigger>
+            <DrawerTrigger asChild>{children[0]}</DrawerTrigger>
             <DrawerContent id="drawer-content">
                 <DrawerHeader className="text-left">
-                    <DrawerTitle>Add new category</DrawerTitle>
-                    <DrawerDescription>
-                        Add a new category and add it to the database.
-                    </DrawerDescription>
+                    <DrawerTitle>{title}</DrawerTitle>
+                    <DrawerDescription>{description}</DrawerDescription>
                 </DrawerHeader>
-                    {children[1]}
+                {children[1]}
                 <DrawerFooter className="pt-2">
                     <DrawerClose asChild>
                         <Button variant="outline">Cancel</Button>
@@ -77,5 +69,3 @@ export function AdaptiveDialog({
         </Drawer>
     );
 }
-
-

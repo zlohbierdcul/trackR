@@ -275,7 +275,7 @@ export default function CategoryEditForm({
                             )}></FormField>
                     </>
                 ) : (
-                    'No subcatories'
+                    category.data && category.data.at(0)?.type === 'Expense' && 'No subcatories'
                 )}
 
                 <Button variant={'ghostSelected'} type="submit">

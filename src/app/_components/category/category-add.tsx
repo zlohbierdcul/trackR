@@ -25,7 +25,7 @@ export default function CategoryAdd() {
             >
                 Add new category
             </Button>
-            <CategoryAddForm></CategoryAddForm>
+            <CategoryAddForm setOpen={setOpen}></CategoryAddForm>
         </AdaptiveDialog>
     );
 }

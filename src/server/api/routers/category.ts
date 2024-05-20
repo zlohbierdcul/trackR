@@ -17,17 +17,20 @@ export const categoryRouter = createTRPCRouter({
         .input(
             z.object({
                 name: z.string(),
+                type: z.enum(['Income', 'Expense']),
             })
         )
         .mutation(async ({ input, ctx }) => {
             await ctx.db.insert(category).values({
                 name: input.name,
+                type: input.type,
             });
         }),
 
     deleteCategoryById: publicProcedure.input(z.number()).mutation(async ({ input, ctx }) => {
         await ctx.db.delete(category).where(eq(category.id, input));
     }),
+
     editNameById: publicProcedure
         .input(z.object({ id: z.number(), name: z.string() }))
         .mutation(async ({ input, ctx }) => {
