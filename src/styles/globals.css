@@ -12,7 +12,9 @@
         --card-foreground: hsla(222.2 84% 4.9%);
 
         --popover: hsl(120, 10%, 8%);
-        --popover-foreground: #020817 --primary: hsla(105, 26%, 74%);
+        --popover-foreground: #020817;
+        
+        --primary: hsla(105, 26%, 74%);
         --primary-foreground: hsla(120, 7%, 3%);
 
         --secondary: hsla(100, 36%, 31%);

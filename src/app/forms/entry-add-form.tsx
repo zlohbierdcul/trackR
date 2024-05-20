@@ -40,21 +40,21 @@ export default function EntryAddForm({
 
     const onSubmit: (values: z.infer<typeof formSchema>) => void = (values) => {
         setOpen(false);
-        console.log(values)
+        console.log(values);
         createEntry.mutate({
             type: type,
             amount: values.amount,
             category: +values.category,
             subCategory: +values.subCategory,
-            desciption: values.description ? values.description : null
-        })
+            desciption: values.description ? values.description : null,
+        });
     };
 
     const createEntry = api.entry.createEntry.useMutation({
         onSuccess: () => {
-            router.refresh()
-        }
-    })
+            router.refresh();
+        },
+    });
 
     return (
         <Form {...form}>
@@ -91,11 +91,15 @@ export default function EntryAddForm({
                                         <SelectValue placeholder="Category"></SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {categories.data?.map((category) => (
-                                            <SelectItem key={`select_${category.id}`} value={category.id.toString()}>
-                                                {category.name}
-                                            </SelectItem>
-                                        ))}
+                                        {categories.data
+                                            ?.filter((category) => category.type === type)
+                                            .map((category) => (
+                                                <SelectItem
+                                                    key={`select_${category.id}`}
+                                                    value={category.id.toString()}>
+                                                    {category.name}
+                                                </SelectItem>
+                                            ))}
                                     </SelectContent>
                                 </Select>
                             </FormControl>
@@ -133,17 +137,14 @@ export default function EntryAddForm({
                             </FormItem>
                         )}></FormField>
                 )}
-                                <FormField
+                <FormField
                     control={form.control}
                     name="description"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Description</FormLabel>
                             <FormControl>
-                                <Input
-                                    placeholder="Coffee"
-                                    {...field}
-                                    ></Input>
+                                <Input placeholder="Coffee" {...field}></Input>
                             </FormControl>
                             <FormMessage></FormMessage>
                         </FormItem>
