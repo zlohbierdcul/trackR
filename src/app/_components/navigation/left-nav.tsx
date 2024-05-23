@@ -29,10 +29,10 @@ export default function LeftNav() {
     }, [width]);
 
     return (
-        <div className={!isDesktop ? "fixed bottom-4 left-0 mx-[5%] w-[90%]" : ""}>
+        <div className={!isDesktop ? "fixed bottom-4 left-0 mx-[5%] w-[90%] z-50" : ""}>
             <div
                 className={cn(
-                    'flex h-auto min-w-[68px] flex-col gap-4 overflow-hidden rounded-lg border-2 bg-popover p-3 shadow-lg shadow-border transition-all',
+                    'flex h-auto min-w-[68px] flex-col gap-4 overflow-hidden rounded-lg border-2 bg-popover opacity-100 p-3 shadow-lg shadow-border transition-all',
                     expanded
                         ? 'animate-accordion-right'
                         : 'animate-accordion-left',
