@@ -20,25 +20,49 @@ import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
+    DropdownMenuItem,
     DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+import { Input } from '~/components/ui/input';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
 import useBetterMediaQuery from '~/lib/useBetterMediaQuery';
+
+import { Entry as DataEntry } from './entry-columns';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
 }
 
-export function EntryDataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
-    const isDesktop = useBetterMediaQuery()
+const months = [
+    'January',
+    'Febuary',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+];
+
+export function EntryDataTable<TData, TValue>({ columns, data }: DataTableProps<DataEntry, TValue>) {
+    const isDesktop = useBetterMediaQuery('(max-width: 768px)');
+    const isSmallDesktop = useBetterMediaQuery('(max-width: 1000px)');
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
+    const [selectedMonths, setSelectedMonths] = useState<string[]>([]);
+
+    const [dataState, setDataState] = useState(data);
+
     const table = useReactTable({
-        data,
+        data: dataState,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -61,19 +85,69 @@ export function EntryDataTable<TData, TValue>({ columns, data }: DataTableProps<
 
     useEffect(() => {
         setColumnVisibility({
-            "type": !!isDesktop,
-            "subCategory": !!isDesktop,
-            "description": !!isDesktop,
+            type: !!!isDesktop && !!!isSmallDesktop,
+            subCategory: !!!isDesktop && !!!isSmallDesktop,
+            description: !!!isDesktop,
+        });
+    }, [isDesktop, isSmallDesktop]);
 
-        })
-    }, [isDesktop]);
+    useEffect(() => {
+        let temp = [...data];
+        if (selectedMonths.length > 0) {
+            temp = temp.filter((obj) => {
+                return selectedMonths.includes(getDateMonth(obj.createdAt));
+            });
+        }
+        setDataState(temp);
+    }, [selectedMonths]);
+
+    const getDateMonth = (date: Date) => {
+        return Intl.DateTimeFormat('en-US', {
+            month: 'long',
+        }).format(date);
+    };
+
+    const setMonthAsSelected = (isChecked: boolean, month: string) => {
+        const temp = [...selectedMonths];
+        if (isChecked) {
+            temp.push(month);
+        } else {
+            const index = temp.findIndex((m) => m === month);
+            temp.splice(index, 1);
+        }
+        setSelectedMonths(temp);
+    };
 
     return (
         <div className="w-full">
-            <div className="flex justify-end mb-4">
+            <div className="mb-4 flex justify-between">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghostSelected" className="ml-auto gap-2" Icon={ChevronDown} iconPlacement="right">
+                        <Button variant="ghostSelected" className="gap-2" Icon={ChevronDown} iconPlacement="right">
+                            Month
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        {months.map((month, index) => {
+                            return (
+                                <DropdownMenuCheckboxItem
+                                    key={`month_filter_${index}`}
+                                    className="capitalize"
+                                    checked={selectedMonths.includes(month)}
+                                    onCheckedChange={(value) => setMonthAsSelected(value, month)}>
+                                    {month}
+                                </DropdownMenuCheckboxItem>
+                            );
+                        })}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            variant="ghostSelected"
+                            className="ml-auto gap-2"
+                            Icon={ChevronDown}
+                            iconPlacement="right">
                             Columns
                         </Button>
                     </DropdownMenuTrigger>

@@ -29,7 +29,7 @@ export const columns: ColumnDef<Entry>[] = [
             );
         },
         cell: ({ row }) => {
-            const date: Date = row.getValue('createdAt');
+            const date: Date = row.getValue('date');
             const formatted = Intl.DateTimeFormat('en-US', {
                 month: 'long',
                 day: '2-digit',
